@@ -6,11 +6,15 @@ import numpy as np
 from datetime import date
 
 # ----------- AUTHENTICATE EE (FIRST TIME YOU'LL DO ee.Authenticate()) ----------
-try:
-    ee.Initialize()
-except:
-    ee.Authenticate()
-    ee.Initialize()
+import ee
+import os
+
+# Authenticate using service account
+key_file = "service_account.json"
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = key_file
+
+ee.Initialize()
+Initialize()
 
 # ----------- STUDY AREA ----------
 cauvery_delta = ee.Geometry.Rectangle([78.0, 10.3, 79.8, 11.6])
@@ -74,3 +78,4 @@ m.addLayer(ndvi, {'min':0, 'max':1, 'palette':['red','yellow','green']}, "NDVI")
 st.write(" NDVI Layer Added")
 
 m.to_streamlit(height=600)
+
